@@ -66,15 +66,15 @@ public class StringList {
 	
     /** remove all nodes containing element with a given value */
     public void remove(String s){
-	Node cursor = head;
-	Node prev   = null;
-	while(cursor != null){
-	    if(cursor.compareTo(s) == 0){
-		if (cursor == head) removeFirst();
-		else {prev.setNext(cursor.getNext());size-=1;}}
-	    else prev = cursor;
+		Node cursor = head;
+		Node prev   = null;
+		while(cursor != null){
+			if(cursor.compareTo(s) == 0){
+				if (cursor == head) removeFirst();
+				else {prev.setNext(cursor.getNext());size-=1;}}
+			else prev = cursor;
 	    cursor = cursor.getNext();
-	}
+		}
     }
 	
     /** String representation of list */
@@ -103,61 +103,107 @@ public class StringList {
     //    - replace
     //
 
-    public boolean equal(StringList l){return false;}
-    // IMPLEMENT THIS
-    //
-    // l1.equals(l2) delivers true if the two lists
-    // contain the same elements in the same order
-    //
+	/**
+	@param StringList l
+	@return boolean if l contains the same elements in the same order as this StringList
+	*/
+    public boolean equal(StringList l){
+		if (size != l.size)	return false;
+		Node cursor1 = this.head;
+		Node cursor2 = l.head;
+		while (cursor1 != null){
+			if (!cursor1.getElement().equals(cursor2.getElement())) return false;
+			cursor1 = cursor1.getNext();
+			cursor2 = cursor2.getNext();
+		}
+		return true;
+	}
+		  
+	/**
+	@return StringList that has the the elements of this StringList in reverse order
+	*/
+    public StringList reverse(){
+		StringList reverseStringList = new StringList();
+		Node cursor = head;
+		while (cursor != null){
+			reverseStringList.addFront(cursor.getElement());
+			reverseStringList.size++;
+			cursor = cursor.getNext();
+		}
+		return reverseStringList;
+	}
+	
+    /**
+	@param Interger i
+	@return String which is the element at index i of this StringList(starts at 0)
+	@return "" if i is negative or i is greater than or equal to the sise of the StringList
+	*/    
+    public String get(int i){
+		if (i<0 || i>=size) return "";
+		Node cursor = head;
+		for (int x=0;x<i;x++) cursor = cursor.getNext();
+		return cursor.getElement();
+	}
+   
+   /**
+   @return the last node in this StringList
+   */
+    public Node last(){
+		Node cursor = head;
+		while (cursor.getNext() != null) cursor = cursor.getNext();
+		return cursor;
+	}
     
-    public StringList reverse(){return new StringList();}
-    // IMPLEMENT THIS
-    //
-    // l.reverse() delivers a new StringList that has the 
-    // the elements of l in reverse order
-    //
+	/**
+	@param StringList l 
+	Appends stringList l to the end of this StringList
+	*/
+    public void append(StringList l){
+		Node cursor = this.last();
+		cursor.setNext(l.head);
+		size+= l.size();
+	}
+		
+	/**
+	 * @param String s
+	 * @return Integer number of times s occurs in this StringList
+	 */
+    public int count (String s){
+    	int counter = 0;
+    	Node cursor = head;
+    	while (cursor != null){
+    		if (cursor.compareTo(s) == 0) counter++;
+    		cursor = cursor.getNext();
+    	}
+    	return counter;
+	}
     
-    public String get(int i){return "IMPLEMENT THIS";}
-    // IMPLEMENT THIS
-    //
-    // l.get(i) delivers a String s, the ith element of list l.
-    // If i is negative or i is greater than or equal to l.size() deliver ""
-    // Note: l.get(0) delivers the 1st element of the list (if there is one)
-    //
+    /**
+     * @param String s
+     * @return Integer index of the first occurrence of s in the list
+     * @return Integer -1 if String S is not contained within this StringList
+     */
+    public int indexOf(String s){
+    	Node cursor = head;
+    	int counter = 0;
+    	while (cursor != null){
+    		if (cursor.compareTo(s) == 0) return counter;
+    		counter++;
+    		cursor = cursor.getNext();
+    	}
+    	return -1;
+    }
 
-    public Node last(){return null;}
-    // IMPLEMENT THIS
-    //
-    // l.last() delivers the last Node in the list l.
-    // Note: this might be used when appending lists
-    //
-    
-    public void append(StringList l){}
-    // IMPLEMENT THIS
-    //
-    // l1.append(l2) append list l2 to the end of list l1.
-    // Note: this operation modifies l1, such that the last
-    //       Node in l1 points to the head of l2.
-    //       You should investigate the consequences of this
-    //
-
-    public int count(String s){return -1;}
-    // IMPLEMENT THIS
-    //
-    // l.count(s) returns the number of times s occurs in l
-    //
-
-    public int indexOf(String s){return -999;}
-    // IMPLEMENT THIS
-    //
-    // indexOf(s) returns -1 if s is not in the list, otherwise
-    // the index of the first occurrence of s in the list
-    //
-
-    public void replace(String s1,String s2){}
-    // IMPLEMENT ME
-    //
-    // replace all occurrences of s1 with s2
-    // NOTE: you need to use setElement
-    //
+    /**
+     * @param Sting s1 
+     * @param String s2
+     * Replace all occurrences of s1 with s2 in this StringList
+     */
+    public void replace(String s1,String s2){
+    	Node cursor = head;
+    	while (cursor != null){
+    		if (cursor.compareTo(s1) == 0) cursor.setElement(s2);
+    		cursor = cursor.getNext();
+    	}
+    }
 }
