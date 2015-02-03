@@ -13,7 +13,7 @@ public class Test {
 
     System.out.print("> ");
     String command = sc.next();
-    ArrayQueue<String> Q = new ArrayQueue<String>(10);
+    ArrayQueue<String> Q = new ArrayQueue<String>(5);
 
     while (!command.equals("quit") && !command.equals("q")){
 

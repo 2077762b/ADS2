@@ -7,22 +7,32 @@ public class QueueSort<E extends Comparable<E>> {
     public static final int CAPACITY = 10;  // default queue capacity
     private int n;    
     private boolean trace;
-	
+    
+	// Constructors
+    /**
+     * Creates a new QueueSort with default capacity value CAPACITY
+     */
     public QueueSort(){this(CAPACITY);}
-	
-    public QueueSort(int capacity){
-	n = capacity;
+    
+    /**
+     * @param integer capacity cap
+     * Creates a new QueueSort with capacity cap
+     */
+    public QueueSort(int cap){
+	n = cap;
 	Q = new ArrayQueue<ArrayQueue<E>>(n);
     }
 
+    
+    // Other Methods 
     /**
      * @param Sorted ArrayQueue q1
      * @param Sorted ArrayQueue q2
-     * @return Sorted ArrayQueue of the first two merged together 
+     * @return Sorted ArrayQueue of the two inputed ArrayQueues merged together 
      * @throws ArrayQueueException
      */
     private ArrayQueue<E> merge(ArrayQueue<E> q1,ArrayQueue<E> q2) throws ArrayQueueException {
-    	ArrayQueue<E> q3 = new ArrayQueue<E>(q1.size()+q2.size()+1);
+    	ArrayQueue<E> q3 = new ArrayQueue<E>(q1.size()+q2.size());
     	while (!q1.isEmpty() && !q2.isEmpty()){
     		if ((q1.front().compareTo(q2.front()) < 0)) {
     			q3.enqueue(q1.dequeue());
@@ -30,6 +40,7 @@ public class QueueSort<E extends Comparable<E>> {
     			q3.enqueue(q2.dequeue());
     		}
     	}
+    	// Adds any remaining elements from the other ArrayQueue into the merged ArrayQueue
     	while (!q1.isEmpty()) q3.enqueue(q1.dequeue());
     	while (!q2.isEmpty()) q3.enqueue(q2.dequeue());
     	return q3;
@@ -39,7 +50,6 @@ public class QueueSort<E extends Comparable<E>> {
      * Sorts the ArrayQueue of ArrayQueues
      */
     public void sort(){
-    	System.out.println(Q);
     	while (Q.size() > 1) {
     		ArrayQueue<E> q1 = Q.dequeue();
     		ArrayQueue<E> q2 = Q.dequeue();
@@ -57,19 +67,21 @@ public class QueueSort<E extends Comparable<E>> {
     //     - go back to (1)
     //
 
-    public void add(E element){
+    /**
+     * @param Generic type object e
+     * Creates an ArrayQueue that contains the generic type object e and enqueues it onto Q
+     */
+    public void add(E e){
     	ArrayQueue<E> elementArrayQueue = new ArrayQueue<E>();
-    	elementArrayQueue.enqueue(element);
+    	elementArrayQueue.enqueue(e);
     	Q.enqueue(elementArrayQueue);
     }
-    //
-    // IMPLEMENT ME
-    // create an ArrayQueue<E> that contains the element
-    // enqueue it onto Q
-    //
-    
-    public String toString(){return Q.toString();}
 
+    /**
+     * @return ArrayQueue Q formatted as a string
+     */
+    public String toString(){return Q.toString();}
+    
     public void trace(){trace = !trace;}
 
     public static void main(String[] args) throws IOException {
@@ -77,7 +89,7 @@ public class QueueSort<E extends Comparable<E>> {
     	ArrayList<String> data = new ArrayList<String>();
     	while (sc.hasNext()) data.add(sc.next());    	
     	int n = data.size();
-    	QueueSort<String> QS = new QueueSort<String>(n+1);	
+    	QueueSort<String> QS = new QueueSort<String>(n);	
     	for (String s : data) QS.add(s);
     	if (args.length > 1) QS.trace();
     	QS.sort();

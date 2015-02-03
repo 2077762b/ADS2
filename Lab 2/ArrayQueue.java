@@ -10,9 +10,16 @@ public class ArrayQueue<E> {
     private int rear;                       // rear of the queue
     private int size;                       // size of the queue
     
-	
+    // Constructors
+    /**
+     * Creates a new ArrayQueue with default capacity value CAPACITY
+     */
     public ArrayQueue(){this(CAPACITY);}
 
+    /**
+     * @param integer capacity cap
+     * Creates a new ArrayQueue with capacity cap
+     */
     @SuppressWarnings("unchecked")
     public ArrayQueue(int capacity){
 	n = capacity;
@@ -20,6 +27,8 @@ public class ArrayQueue<E> {
 	front = rear = size = 0;
     }
 	
+    
+    // Other Methods
 	/**
 	 * @return integer size of the ArrayQueue
 	 */
@@ -44,6 +53,7 @@ public class ArrayQueue<E> {
 	 * @throws ArrayQueueException if the ArrayQueue is full
 	 */
     public void enqueue(E element) throws ArrayQueueException {
+    	
 		if (size==n) throw new ArrayQueueException();
 		if (!isEmpty()) rear = (rear+1)%n;
 		Q[rear] = element;	
@@ -69,11 +79,14 @@ public class ArrayQueue<E> {
     	String s = "[";
     	if (size != 0){
     		// Loops from the front to the rear of the ArrayQueue
-    		// Rolls over when it reaches the end of the Array object
-    		for (int i=front;i!=rear+1;i=(i+1)%n) {
+    		// Rolls over when it reaches the end of the Array object    		
+    		int i=front;
+    		do {
     			s=s+Q[i];
     			if (i!=rear) s = s+",";
-    		} 		
+    			i=(i+1)%n;
+    		}
+    		while (i!=(rear+1)%n); 	
     	}
     	return s +"]";  	      
     }
