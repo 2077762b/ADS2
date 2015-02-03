@@ -15,16 +15,37 @@ public class QueueSort<E extends Comparable<E>> {
 	Q = new ArrayQueue<ArrayQueue<E>>(n);
     }
 
+    /**
+     * @param Sorted ArrayQueue q1
+     * @param Sorted ArrayQueue q2
+     * @return Sorted ArrayQueue of the first two merged together 
+     * @throws ArrayQueueException
+     */
     private ArrayQueue<E> merge(ArrayQueue<E> q1,ArrayQueue<E> q2) throws ArrayQueueException {
-	return null;
+    	ArrayQueue<E> q3 = new ArrayQueue<E>(q1.size()+q2.size()+1);
+    	while (!q1.isEmpty() && !q2.isEmpty()){
+    		if ((q1.front().compareTo(q2.front()) < 0)) {
+    			q3.enqueue(q1.dequeue());
+    		} else {
+    			q3.enqueue(q2.dequeue());
+    		}
+    	}
+    	while (!q1.isEmpty()) q3.enqueue(q1.dequeue());
+    	while (!q2.isEmpty()) q3.enqueue(q2.dequeue());
+    	return q3;
     }
-    //
-    // IMPLEMENT ME
-    // Take two sorted queues and merge them to produce a third
-    // sorted queue
-    //
-
-    public void sort(){}
+    
+    /**
+     * Sorts the ArrayQueue of ArrayQueues
+     */
+    public void sort(){
+    	System.out.println(Q);
+    	while (Q.size() > 1) {
+    		ArrayQueue<E> q1 = Q.dequeue();
+    		ArrayQueue<E> q2 = Q.dequeue();
+    		Q.enqueue(merge(q1,q2));
+    	}
+    }
     //
     // IMPLEMENT ME
     // given a queue Q of queues
@@ -36,7 +57,11 @@ public class QueueSort<E extends Comparable<E>> {
     //     - go back to (1)
     //
 
-    public void add(E element){}
+    public void add(E element){
+    	ArrayQueue<E> elementArrayQueue = new ArrayQueue<E>();
+    	elementArrayQueue.enqueue(element);
+    	Q.enqueue(elementArrayQueue);
+    }
     //
     // IMPLEMENT ME
     // create an ArrayQueue<E> that contains the element
@@ -48,14 +73,14 @@ public class QueueSort<E extends Comparable<E>> {
     public void trace(){trace = !trace;}
 
     public static void main(String[] args) throws IOException {
-	Scanner sc = new Scanner(new File(args[0]));
-	ArrayList<String> data = new ArrayList<String>();
-	while (sc.hasNext()) data.add(sc.next());
-	int n = data.size();
-	QueueSort<String> QS = new QueueSort<String>(n);
-	for (String s : data) QS.add(s);
-	if (args.length > 1) QS.trace();
-	QS.sort();
-	System.out.println(QS);
+    	Scanner sc = new Scanner(new File(args[0]));
+    	ArrayList<String> data = new ArrayList<String>();
+    	while (sc.hasNext()) data.add(sc.next());    	
+    	int n = data.size();
+    	QueueSort<String> QS = new QueueSort<String>(n+1);	
+    	for (String s : data) QS.add(s);
+    	if (args.length > 1) QS.trace();
+    	QS.sort();
+    	System.out.println(QS);
     }
 }
