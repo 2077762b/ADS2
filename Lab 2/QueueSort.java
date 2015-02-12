@@ -56,16 +56,6 @@ public class QueueSort<E extends Comparable<E>> {
     		Q.enqueue(merge(q1,q2));
     	}
     }
-    //
-    // IMPLEMENT ME
-    // given a queue Q of queues
-    // (1) if Q is of size 1 deliver the first queue in Q
-    // (2) if Q is of size 2 or more 
-    //     - get the first and second queues off Q
-    //     - merge these two queues to create a third queue
-    //     - add the third queue to the queue
-    //     - go back to (1)
-    //
 
     /**
      * @param Generic type object e

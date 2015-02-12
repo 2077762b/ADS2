@@ -76,19 +76,21 @@ public class ArrayQueue<E> {
      * @return the ArrayQueue as a formatted String
      */
     public String toString(){
-    	String s = "[";
+    	StringBuilder sb = new StringBuilder();
+    	sb.append("[");
     	if (size != 0){
     		// Loops from the front to the rear of the ArrayQueue
     		// Rolls over when it reaches the end of the Array object    		
     		int i=front;
     		do {
-    			s=s+Q[i];
-    			if (i!=rear) s = s+",";
+    			sb.append(Q[i]);
+    			if (i!=rear) sb.append(",");
     			i=(i+1)%n;
     		}
     		while (i!=(rear+1)%n); 	
     	}
-    	return s +"]";  	      
+    	sb.append("]");  	
+    	return sb.toString();
     }
 }
 	
