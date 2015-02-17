@@ -1,0 +1,15 @@
+
+public class TestBSTTRee {
+
+	
+	public void main (String args[]) {
+		
+		BSTree bs = new BSTree();
+		
+		bs.insert("a");
+		bs.insert("b");
+		bs.insert("c");
+		bs.insert("d");
+		bs.insert("e");
+	}
+}
