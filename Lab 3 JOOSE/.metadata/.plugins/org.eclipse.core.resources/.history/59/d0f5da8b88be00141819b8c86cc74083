@@ -1,0 +1,32 @@
+package uk.ac.glasgow.jagora.test;
+
+import static org.junit.Assert.*;
+import uk.ac.glasgow.jagora.TickEvent;
+import uk.ac.glasgow.jagora.impl.DefaultTickEvent;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+public class DefaultTickEventTest {
+	
+	protected Long tick = 100000;
+	protected 
+	
+	protected TickEvent tickEvent;
+
+	@Before
+	public void setUp() throws Exception {
+		this.tickEvent = new DefaultTickEvent(tickEvent, null);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+	}
+
+	@Test
+	public void test() {
+		fail("Not yet implemented");
+	}
+
+}
