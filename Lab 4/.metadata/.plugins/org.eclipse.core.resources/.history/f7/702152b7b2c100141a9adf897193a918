@@ -1,0 +1,118 @@
+package uk.ac.glasgow.heapSort;
+
+
+public class Heap <E extends Comparable<E>> {
+ 
+    private Object H[];   // contains the objects in the heap
+    private int last;     // index of last element in heap
+    private int capacity; // max number of elements in heap  
+
+    public Heap(int n){
+	capacity = n;
+	H        = new Object[capacity+1];
+	last     = 0;
+    }
+    //
+    // create a heap with capacity n
+    // NOTE: H is an array of objects
+    //       must use casting when delivering the minimum
+    //       See min() below.
+    //       This must also be done in removeMin()
+    //
+
+    public Heap(){this(7);}
+    //
+    // by default, create a new heap with capacity 7
+    //
+
+    @SuppressWarnings("unchecked")
+    private int compare(Object x,Object y){return ((E)x).compareTo((E)y);}
+    
+    public int size(){return last;}
+    //
+    // returns the number of elements in the heap
+    //
+    
+    public boolean isEmpty(){return last == 0;}
+    //
+    // is the heap empty?
+    //
+    
+    @SuppressWarnings("unchecked")
+    public E min() throws HeapException {
+	if (isEmpty()) throw new HeapException("underflow");
+	return (E) H[1];
+    }
+    //
+    // returns element with smallest key, without removal
+    // NOTE: must use casting to class (E)
+    //
+	
+    private void swap(int i, int j){
+    	E temp = (E) H[j];
+    	H[j] = H[i];
+		H[i] = temp;    	
+    }
+    
+    private int smallestChild(int i){
+    	if (i*2>last) return -1;
+    	if (i*2==last) return i*2;
+    	if (compare(H[i*2],H[i*2+1])<0) return i*2;
+    	return i*2+1;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void insert(E e) throws HeapException {
+    	if (last == capacity+1) throw new HeapException("overflow");
+    	last++;
+    	H[last] = e;
+    	// Up heap bubble
+    	int p = last;
+    	while (p>1 && compare(H[p],H[p/2])<0){
+    			swap(p,p/2);
+        		p = p/2;
+    	}
+    }		
+    //
+    // inserts e into the heap
+    // throws exception if heap overflow
+    //
+    
+    @SuppressWarnings("unchecked")
+    public E removeMin() throws HeapException {
+    	if (isEmpty()) throw new HeapException("underflow");
+    	E smallest = (E) H[1];
+    	swap(1,last);
+    	last--;
+    	// Down heap bubble
+    	int p = 1;
+    	while (smallestChild(p) != -1 && compare(H[p],H[smallestChild(p)])<0){
+    		swap(p,smallestChild(p));
+    		p = smallestChild(p);
+    	}    	
+    	return smallest;
+    
+    }
+    //
+    // removes and returns smallest element of the heap
+    // throws exception if heap is empty
+    // NOTE: must cast result to class (E)
+    //       see min() above
+    //
+
+    public String toString(){
+    	StringBuilder sb = new StringBuilder("[");
+    	for (int i = 1; i <= last; i++) {
+    		sb.append(H[i]);
+    		if (i!=last) sb.append(",");
+    	}
+    	sb.append("]");  	
+    	return sb.toString();
+    }
+    //
+    // outputs the entries in H in the order H[1] to H[last]
+    // in same style as used in ArrayQueue
+    // 
+    //
+}
+
